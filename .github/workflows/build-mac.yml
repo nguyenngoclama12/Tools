@@ -40,9 +40,11 @@ jobs:
       - name: Build macOS app with PyInstaller
         run: |
           pyinstaller --onefile \
+          --windowed \
           --name "PINChecker" \
           --add-data "${FAKE_USERAGENT_DATA}:fake_useragent/data" \
           --add-data "${PLAYWRIGHT_PATH}:playwright" \
+          --osx-no-sign \
           pin_checker_license.py
 
       - name: Upload artifact
