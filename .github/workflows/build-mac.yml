@@ -29,7 +29,7 @@ jobs:
         id: fu_path
         run: |
           echo "FAKE_USERAGENT_DATA=$(python -c 'import fake_useragent, os; print(os.path.join(os.path.dirname(fake_useragent.__file__), \"data\"))')" >> $GITHUB_ENV
-      
+
       - name: Get Playwright browser path
         id: pw_path
         run: |
