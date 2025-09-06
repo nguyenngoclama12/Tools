@@ -40,7 +40,7 @@ STOP_ON_SUCCESS = True
 PIN_LOG_FILE = ""
 my_list_language = ["ind", "eng", "esp", "por", "tag", "vie", "rus", "tha", "chi", "jpn"]
 my_list_lang_int = [1, 2, 3, 4, 5, 6, 8, 9, 15, 16]
-DEFAULT_VPN_PATH = "C:\\Program Files\\Proton\\VPN\\v4.2.2\\ProtonVPN.Client.exe"
+DEFAULT_VPN_PATH = "/Applications/ProtonVPN.app"
 
 # ===== LICENSE CONFIG =====
 LICENSE_FILE = "license.json"
