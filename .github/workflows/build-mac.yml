@@ -28,12 +28,14 @@ jobs:
       - name: Get fake_useragent data path
         id: fu_path
         run: |
-          echo "FAKE_USERAGENT_DATA=$(python -c 'import fake_useragent, os; print(os.path.join(os.path.dirname(fake_useragent.__file__), \"data\"))')" >> $GITHUB_ENV
+          FAKE_USERAGENT_DATA=$(python -c 'import fake_useragent, os; print(os.path.join(os.path.dirname(fake_useragent.__file__), "data"))')
+          echo "FAKE_USERAGENT_DATA=$FAKE_USERAGENT_DATA" >> $GITHUB_ENV
 
       - name: Get Playwright browser path
         id: pw_path
         run: |
-          echo "PLAYWRIGHT_PATH=$(python -c 'import os; from pathlib import Path; print(Path.home() / \"Library/Caches/ms-playwright\")')" >> $GITHUB_ENV
+          PLAYWRIGHT_PATH=$(python -c 'from pathlib import Path; import os; print(Path.home() / "Library/Caches/ms-playwright")')
+          echo "PLAYWRIGHT_PATH=$PLAYWRIGHT_PATH" >> $GITHUB_ENV
 
       - name: Check playwright data path
         run: python -c "from playwright._impl._driver import get_driver_executable; import os; print(os.path.dirname(get_driver_executable()))"
