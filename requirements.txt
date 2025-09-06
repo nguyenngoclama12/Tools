@@ -1,0 +1,17 @@
+# GUI
+PyQt5>=5.15.11
+
+# Async file handling
+aiofiles>=24.1.0
+
+# HTTP requests
+requests>=2.32.4
+
+# AES encryption
+pycryptodome>=3.23.0
+
+# Random User-Agent
+fake-useragent>=2.2.0
+
+# Browser automation
+playwright>=1.55.0

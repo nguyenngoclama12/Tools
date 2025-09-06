@@ -1,0 +1,46 @@
+name: Build macOS App
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  build-mac:
+    runs-on: macos-latest
+
+    steps:
+      - name: Check fake_useragent data path
+        run: python -c "import fake_useragent, os; print(os.path.join(os.path.dirname(fake_useragent.__file__), 'data'))"
+
+      - name: Check playwright data path
+        run: python -c "from playwright._impl._driver import get_driver_executable; import os; print(os.path.dirname(get_driver_executable()))"
+
+      - name: Checkout repo
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+          pip install pyinstaller
+          playwright install
+
+      - name: Build macOS app with PyInstaller
+        run: |
+          pyinstaller --onefile \
+          --name "PINChecker" \
+          --add-data "/Users/runner/Library/Caches/pypoetry/virtualenvs/Python312/lib/python3.11/site-packages/fake_useragent/data:fake_useragent/data" \
+          --add-data "/Users/runner/Library/Caches/ms-playwright:playwright" \
+          pin_checker_license.py
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: pinchecker-mac
+          path: dist/PINChecker
