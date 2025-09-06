@@ -43,7 +43,7 @@ jobs:
           --windowed \
           --name "PINChecker" \
           --add-data "${FAKE_USERAGENT_DATA}:fake_useragent/data" \
-          --add-data "${PLAYWRIGHT_PATH}:playwright" \
+          --additional-hooks-dir . \
           --codesign-identity - \
           pin_checker_license.py
 
