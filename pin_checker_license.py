@@ -614,9 +614,23 @@ class MainWindow(QWidget):
         self.timer.stop()
 
 
-# ===== RUN APP =====
 if __name__ == "__main__":
     app = QApplication(sys.argv)
+
+    disclaimer = QMessageBox()
+    disclaimer.setWindowTitle("⚠️ Thông báo quan trọng")
+    disclaimer.setIcon(QMessageBox.Warning)
+    disclaimer.setText(
+        "🚨 Công cụ này CHỈ dành cho mục đích hợp pháp:\n\n"
+        "✔️ Hỗ trợ người dùng chính chủ đăng nhập lại tài khoản khi quên mật khẩu/PIN.\n"
+        "❌ Tuyệt đối KHÔNG sử dụng để tấn công, dò tìm trái phép hay gây thiệt hại cho hệ thống, dịch vụ hoặc người khác.\n\n"
+        "➡️ Tiếp tục sử dụng đồng nghĩa bạn đồng ý chịu hoàn toàn trách nhiệm."
+    )
+    disclaimer.setStandardButtons(QMessageBox.Ok | QMessageBox.Cancel)
+    disclaimer.setDefaultButton(QMessageBox.Ok)
+
+    if disclaimer.exec_() == QMessageBox.Cancel:
+        sys.exit(0)
 
     ok, msg = check_license_flow()
     if not ok:
