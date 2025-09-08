@@ -7,7 +7,8 @@ on:
 
 jobs:
   build-mac:
-    runs-on: macos-latest
+    # Dùng macOS 12 để build tương thích Monterey
+    runs-on: macos-12
 
     steps:
       - name: Checkout repo
@@ -40,12 +41,17 @@ jobs:
 
       - name: Build macOS app with PyInstaller
         run: |
-          pyinstaller --onefile \
-          --windowed \
-          --name "PINChecker" \
-          --add-data "${FAKE_USERAGENT_DATA}:fake_useragent/data" \
-          --additional-hooks-dir . \
-          pin_checker_license.py
+          export MACOSX_DEPLOYMENT_TARGET=12.0
+          pyinstaller --windowed \
+            --name "PINChecker" \
+            --add-data "${FAKE_USERAGENT_DATA}:fake_useragent/data" \
+            --additional-hooks-dir . \
+            pin_checker_license.py
+
+      - name: Fix permissions and codesign
+        run: |
+          chmod +x dist/PINChecker.app/Contents/MacOS/PINChecker
+          codesign --force --deep --sign - dist/PINChecker.app
 
       - name: Create DMG
         run: |
