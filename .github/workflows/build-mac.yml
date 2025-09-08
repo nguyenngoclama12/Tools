@@ -24,6 +24,7 @@ jobs:
           pip install -r requirements.txt
           pip install pyinstaller
           playwright install
+          brew install create-dmg
 
       - name: Get fake_useragent data path
         id: fu_path
@@ -44,11 +45,22 @@ jobs:
           --name "PINChecker" \
           --add-data "${FAKE_USERAGENT_DATA}:fake_useragent/data" \
           --additional-hooks-dir . \
-          --codesign-identity - \
           pin_checker_license.py
+
+      - name: Create DMG
+        run: |
+          mkdir -p dmg
+          create-dmg \
+            --volname "PINChecker Installer" \
+            --window-pos 200 120 \
+            --window-size 600 400 \
+            --icon-size 100 \
+            --app-drop-link 425 120 \
+            "dmg/PINChecker.dmg" \
+            "dist/PINChecker.app"
 
       - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
-          name: pinchecker-mac
-          path: dist/PINChecker
+          name: pinchecker-dmg
+          path: dmg/PINChecker.dmg
